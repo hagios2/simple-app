@@ -1,0 +1,12 @@
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /ping                     --> main.main.func1 (4 handlers)
+[GIN-debug] GET    /videos/                  --> main.main.func2 (4 handlers)
+[GIN-debug] POST   /videos/                  --> main.main.func3 (4 handlers)
+[GIN-debug] [WARNING] You trusted all proxies, this is NOT safe. We recommend you to set a value.
+Please check https://pkg.go.dev/github.com/gin-gonic/gin#readme-don-t-trust-all-proxies for details.
+[GIN-debug] Listening and serving HTTP on :8080
+[GIN-debug] redirecting request 307: /videos/ --> /videos/
+127.0.0.1 - [2024-02-02 21:41:38.482614598 +0000 GMT m=+12.617051045] POST /videos/ 200 272.369µs 
