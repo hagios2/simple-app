@@ -1,52 +1,28 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/hagios2/simple-app/controller"
-	"github.com/hagios2/simple-app/middlewares"
-	"github.com/hagios2/simple-app/service"
-	gindump "github.com/tpkeeper/gin-dump"
-	"io"
+	"log"
 	"net/http"
 	"os"
+
+	"github.com/99designs/gqlgen/graphql/handler"
+	"github.com/99designs/gqlgen/graphql/playground"
+	"github.com/hagios2/simple-app/graph"
 )
 
-var (
-	videoService    service.VideoService       = service.New()
-	videoController controller.VideoController = controller.New(videoService)
-)
-
-// SetupLogoutput function allows to specify a log file for all request
-func setupLogOutput() {
-	f, _ := os.Create("gin.log")
-	gin.DefaultWriter = io.MultiWriter(f, os.Stdout)
-}
+const defaultPort = "8080"
 
 func main() {
-	setupLogOutput()
-
-	server := gin.New()
-
-	//middleware
-	server.Use(gin.Recovery(), middlewares.Logger(), gindump.Dump())
-
-	//setting up routes
-	server.GET("/ping", func(ctx *gin.Context) {
-		ctx.JSON(http.StatusOK, gin.H{
-			"message": " pong",
-		})
-	})
-
-	videoGroupRouter := server.Group("/videos")
-	videoGroupRouter.GET("/", func(ctx *gin.Context) {
-		ctx.JSON(http.StatusOK, videoController.FindAll())
-	})
-	videoGroupRouter.POST("/", func(ctx *gin.Context) {
-		ctx.JSON(http.StatusOK, videoController.Save(ctx))
-	})
-
-	err := server.Run(":8080")
-	if err != nil {
-		return
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = defaultPort
 	}
+
+	srv := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{}}))
+
+	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
+	http.Handle("/query", srv)
+
+	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
+	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
