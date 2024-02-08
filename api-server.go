@@ -6,6 +6,7 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/hagios2/simple-app/controller"
 	"github.com/hagios2/simple-app/middlewares"
+	"github.com/hagios2/simple-app/repository"
 	"github.com/hagios2/simple-app/service"
 	"github.com/hagios2/simple-app/validators"
 	gindump "github.com/tpkeeper/gin-dump"
@@ -15,7 +16,8 @@ import (
 )
 
 var (
-	videoService                               = service.New()
+	videoRepository                            = repository.NewVideoRepository()
+	videoService                               = service.New(videoRepository)
 	jwtService                                 = service.NewJWTService()
 	loginService                               = service.NewLoginService()
 	videoController                            = controller.New(videoService)
@@ -30,6 +32,7 @@ func setupLogOutput() {
 
 func main() {
 	setupLogOutput()
+	defer videoRepository.CloseDB()
 
 	server := gin.New()
 
@@ -66,7 +69,9 @@ func main() {
 				"token": token,
 			})
 		} else {
-			ctx.JSON(http.StatusUnauthorized, nil)
+			ctx.JSON(http.StatusUnauthorized, gin.H{
+				"message": "Unauthorized",
+			})
 		}
 	})
 
@@ -85,6 +90,26 @@ func main() {
 				return
 			}
 			ctx.JSON(http.StatusOK, video)
+		})
+		videoGroupRouter.PUT("/:id", func(ctx *gin.Context) {
+			video, err := videoController.Update(ctx)
+			if err != nil {
+				ctx.JSON(http.StatusBadRequest, gin.H{
+					"error": err.Error(),
+				})
+				return
+			}
+			ctx.JSON(http.StatusOK, video)
+		})
+		videoGroupRouter.DELETE("/:id", func(ctx *gin.Context) {
+			err := videoController.Delete(ctx)
+			if err != nil {
+				ctx.JSON(http.StatusBadRequest, gin.H{
+					"error": err.Error(),
+				})
+				return
+			}
+			ctx.JSON(http.StatusOK, nil)
 		})
 	}
 

@@ -6,11 +6,14 @@ import (
 	"github.com/hagios2/simple-app/entity"
 	"github.com/hagios2/simple-app/service"
 	"net/http"
+	"strconv"
 )
 
 type VideoController interface {
 	FindAll() []entity.Video
 	Save(ctx *gin.Context) (entity.Video, error)
+	Update(ctx *gin.Context) (entity.Video, error)
+	Delete(ctx *gin.Context) error
 	ShowAll(ctx *gin.Context)
 }
 
@@ -43,6 +46,42 @@ func (c *controller) Save(ctx *gin.Context) (entity.Video, error) {
 	}
 	c.service.Save(video)
 	return video, nil
+}
+
+func (c *controller) Update(ctx *gin.Context) (entity.Video, error) {
+	var video entity.Video
+	err := ctx.ShouldBindJSON(&video)
+	if err != nil {
+		return entity.Video{}, err
+	}
+
+	id, err := strconv.ParseUint(ctx.Param("id"), 0, 0)
+	if err != nil {
+		return entity.Video{}, err
+	}
+
+	video.ID = id
+	err = validate.Struct(video)
+	if err != nil {
+		return entity.Video{}, err
+	}
+
+	c.service.Update(video)
+	return video, nil
+}
+
+func (c *controller) Delete(ctx *gin.Context) error {
+	var video entity.Video
+	id, err := strconv.ParseUint(ctx.Param("id"), 0, 0)
+	if err != nil {
+		return err
+	}
+	video.ID = id
+	if err != nil {
+		return err
+	}
+	c.service.Delete(video)
+	return nil
 }
 
 func (c *controller) ShowAll(ctx *gin.Context) {
