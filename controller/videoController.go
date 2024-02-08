@@ -24,11 +24,7 @@ type controller struct {
 var validate *validator.Validate
 
 func New(service service.VideoService) VideoController {
-	//validate = validator.New()
-	//err := validate.RegisterValidation("is-cool", validators.ValidateCoolTitle)
-	//if err != nil {
-	//	return nil
-	//}
+	validate = validator.New()
 	return &controller{
 		service: service,
 	}
@@ -44,7 +40,7 @@ func (c *controller) Save(ctx *gin.Context) (entity.Video, error) {
 	if err != nil {
 		return entity.Video{}, err
 	}
-	c.service.Save(video)
+	video = c.service.Save(video)
 	return video, nil
 }
 

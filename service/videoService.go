@@ -13,29 +13,29 @@ type VideoService interface {
 }
 
 type videoService struct {
-	videoRepository repository.VideoRepository
+	repository repository.VideoRepository
 }
 
-func New(repo repository.VideoRepository) VideoService {
+func New(videoRepository repository.VideoRepository) VideoService {
 	return &videoService{
-		videoRepository: repo,
+		repository: videoRepository,
 	}
 }
 
 func (service *videoService) Save(video entity.Video) entity.Video {
-	service.videoRepository.Save(video)
+	video = service.repository.Save(video)
 	return video
 }
 
 func (service *videoService) FindAll() []entity.Video {
-	return service.videoRepository.FindAll()
+	return service.repository.FindAll()
 }
 
 func (service *videoService) Update(video entity.Video) entity.Video {
-	service.videoRepository.Update(video)
+	service.repository.Update(video)
 	return video
 }
 
 func (service *videoService) Delete(video entity.Video) {
-	service.videoRepository.Delete(video)
+	service.repository.Delete(video)
 }

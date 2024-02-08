@@ -32,7 +32,7 @@ func setupLogOutput() {
 
 func main() {
 	setupLogOutput()
-	defer videoRepository.CloseDB()
+	//defer videoRepository.CloseDB()
 
 	server := gin.New()
 
@@ -109,7 +109,9 @@ func main() {
 				})
 				return
 			}
-			ctx.JSON(http.StatusOK, nil)
+			ctx.JSON(http.StatusOK, gin.H{
+				"message": "Deleted Successfully",
+			})
 		})
 	}
 
