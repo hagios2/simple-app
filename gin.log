@@ -5,10 +5,10 @@
 [GIN-debug] GET    /css/*filepath            --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (1 handlers)
 [GIN-debug] HEAD   /css/*filepath            --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (1 handlers)
 [GIN-debug] Loaded HTML Templates (4): 
-	- 
 	- footer.html
 	- header.html
 	- index.html
+	- 
 
 [GIN-debug] GET    /ping                     --> main.main.func1 (4 handlers)
 [GIN-debug] POST   /login                    --> main.main.func2 (4 handlers)
@@ -17,8 +17,13 @@
 [GIN-debug] PUT    /api/videos/:id           --> main.main.func5 (5 handlers)
 [GIN-debug] DELETE /api/videos/:id           --> main.main.func6 (5 handlers)
 [GIN-debug] GET    /view/videos              --> github.com/hagios2/simple-app/controller.VideoController.ShowAll-fm (4 handlers)
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (4 handlers)
 [GIN-debug] [WARNING] You trusted all proxies, this is NOT safe. We recommend you to set a value.
 Please check https://pkg.go.dev/github.com/gin-gonic/gin#readme-don-t-trust-all-proxies for details.
 [GIN-debug] Listening and serving HTTP on :8080
-[GIN-debug] redirecting request 301: /api/videos/ --> /api/videos/
-127.0.0.1 - [2024-02-08 13:27:38.53350806 +0000 GMT m=+6.419239845] GET /api/videos/ 200 1.104414ms 
+::1 - [2024-02-08 13:52:56.723980143 +0000 GMT m=+3.662808475] GET /swagger/index.html 200 1.480773ms 
+::1 - [2024-02-08 13:52:56.757626547 +0000 GMT m=+3.696454822] GET /swagger/swagger-ui.css 200 721.986µs 
+::1 - [2024-02-08 13:52:56.761978316 +0000 GMT m=+3.700806594] GET /swagger/swagger-ui-standalone-preset.js 200 1.5978ms 
+::1 - [2024-02-08 13:52:56.765951952 +0000 GMT m=+3.704780231] GET /swagger/swagger-ui-bundle.js 200 5.587124ms 
+::1 - [2024-02-08 13:52:57.415011567 +0000 GMT m=+4.353839829] GET /swagger/doc.json 500 143.217µs 
+::1 - [2024-02-08 13:52:57.51701469 +0000 GMT m=+4.455842953] GET /swagger/favicon-32x32.png 200 175.97µs 

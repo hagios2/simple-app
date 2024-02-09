@@ -5,6 +5,7 @@ import (
 	"github.com/hagios2/simple-app/service"
 	"log"
 	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -14,7 +15,7 @@ func AuthorizeJWT() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		const BEARER_SCHEMA = "Bearer "
 		authHeader := c.GetHeader("Authorization")
-		tokenString := authHeader[len(BEARER_SCHEMA):]
+		tokenString := strings.Split(authHeader, BEARER_SCHEMA)[1]
 
 		token, err := service.NewJWTService().ValidateToken(tokenString)
 

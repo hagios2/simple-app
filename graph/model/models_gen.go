@@ -10,6 +10,21 @@ type NewTodo struct {
 	UserID string `json:"userId"`
 }
 
+type Person struct {
+	ID        string `json:"id"`
+	Firstname string `json:"firstname"`
+	Lastname  string `json:"lastname"`
+	Age       int    `json:"age"`
+	Email     string `json:"email"`
+}
+
+type PersonInput struct {
+	Firstname string `json:"firstname"`
+	Lastname  string `json:"lastname"`
+	Age       int    `json:"age"`
+	Email     string `json:"email"`
+}
+
 type Query struct {
 }
 
@@ -23,4 +38,19 @@ type Todo struct {
 type User struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
+}
+
+type Video struct {
+	ID          string  `json:"id"`
+	Title       string  `json:"title"`
+	URL         string  `json:"url"`
+	Author      *Person `json:"author"`
+	Description string  `json:"description"`
+}
+
+type VideoInput struct {
+	Title       string       `json:"title"`
+	URL         string       `json:"url"`
+	Description string       `json:"description"`
+	Author      *PersonInput `json:"Author"`
 }

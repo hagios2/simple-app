@@ -9,6 +9,8 @@ import (
 	"github.com/hagios2/simple-app/repository"
 	"github.com/hagios2/simple-app/service"
 	"github.com/hagios2/simple-app/validators"
+	swaggerfiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	gindump "github.com/tpkeeper/gin-dump"
 	"io"
 	"net/http"
@@ -120,6 +122,8 @@ func main() {
 	{
 		viewRoutes.GET("/videos", videoController.ShowAll)
 	}
+
+	server.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
 	err := server.Run(":8080")
 	if err != nil {

@@ -8,7 +8,9 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hagios2/simple-app/entity"
 	"github.com/hagios2/simple-app/graph/model"
+	"github.com/hagios2/simple-app/service"
 )
 
 // CreateTodo is the resolver for the createTodo field.
@@ -16,9 +18,33 @@ func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) 
 	panic(fmt.Errorf("not implemented: CreateTodo - createTodo"))
 }
 
+// AddVideo is the resolver for the addVideo field.
+func (r *mutationResolver) AddVideo(ctx context.Context, input model.VideoInput) (*model.Video, error) {
+	var videoService service.VideoService
+	video := entity.Video{
+		Title:       input.Title,
+		Description: input.Title,
+		URL:         input.URL,
+		Author: entity.Person{
+			FirstName: input.Author.Firstname,
+			LastName:  input.Author.Lastname,
+			Age:       input.Author.Age,
+			Email:     input.Author.Email,
+		},
+	}
+	newVideo := videoService.SaveGQL(video)
+
+	return newVideo, nil
+}
+
 // Todos is the resolver for the todos field.
 func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
 	panic(fmt.Errorf("not implemented: Todos - todos"))
+}
+
+// Videos is the resolver for the videos field.
+func (r *queryResolver) Videos(ctx context.Context) ([]*model.Video, error) {
+	panic(fmt.Errorf("not implemented: Videos - videos"))
 }
 
 // Mutation returns MutationResolver implementation.
