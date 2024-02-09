@@ -2,30 +2,11 @@
 #
 # https://gqlgen.com/getting-started/
 
-type Todo {
-  id: ID!
-  text: String!
-  done: Boolean!
-  user: User!
-}
-
-type User {
-  id: ID!
-  name: String!
-}
-
 type Query {
-  todos: [Todo!]!
   videos: [Video!]
 }
 
-input NewTodo {
-  text: String!
-  userId: String!
-}
-
 type Mutation {
-  createTodo(input: NewTodo!): Todo!
   addVideo(input: VideoInput!): Video!
 }
 
@@ -41,7 +22,7 @@ type Video {
   id: ID!
   title: String!
   url: String!
-  author: Person!
+  author: Person
   description: String!
 }
 
@@ -49,7 +30,7 @@ input VideoInput {
   title: String!
   url: String!
   description: String!
-  Author: PersonInput!
+  author: PersonInput!
 }
 
 input PersonInput {

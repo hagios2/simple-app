@@ -10,7 +10,7 @@ import (
 
 type VideoService interface {
 	Save(video entity.Video) entity.Video
-	SaveGQL(video entity.Video) *model.Video
+	SaveGQL(video entity.Video) model.Video
 	FindAll() []entity.Video
 	Update(video entity.Video) entity.Video
 	Delete(video entity.Video)
@@ -31,10 +31,10 @@ func (service *videoService) Save(video entity.Video) entity.Video {
 	return video
 }
 
-func (service *videoService) SaveGQL(video entity.Video) *model.Video {
+func (service *videoService) SaveGQL(video entity.Video) model.Video {
 	video = service.repository.Save(video)
 	log.Println("saved video response", video)
-	newVideo := &model.Video{
+	newVideo := model.Video{
 		ID:          strconv.FormatUint(video.ID, 10),
 		Title:       video.Title,
 		URL:         video.URL,
